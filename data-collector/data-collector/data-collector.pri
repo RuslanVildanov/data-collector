@@ -7,6 +7,7 @@ HEADERS += \
     $$PWD/impl/copy_by_wildcard_operation.h \
     $$PWD/impl/copy_last_n_operation.h \
     $$PWD/impl/macro_operation.h \
+    $$PWD/impl/zip_operation.h \
     $$PWD/operation_factory.h
 
 SOURCES += \
@@ -15,5 +16,6 @@ SOURCES += \
     $$PWD/impl/copy_by_wildcard_operation.cpp \
     $$PWD/impl/copy_last_n_operation.cpp \
     $$PWD/impl/macro_operation.cpp \
+    $$PWD/impl/zip_operation.cpp \
     $$PWD/operation_factory.cpp
 

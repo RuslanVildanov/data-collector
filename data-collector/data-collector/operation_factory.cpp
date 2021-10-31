@@ -4,6 +4,8 @@
 #include "impl/console_util_operation.h"
 #include "impl/copy_by_wildcard_operation.h"
 #include "impl/copy_last_n_operation.h"
+#include "impl/macro_operation.h"
+#include "impl/zip_operation.h"
 
 OperationFactory::OperationFactory() noexcept :
     IOperationFactory()
@@ -50,10 +52,16 @@ QSharedPointer<IOperation> OperationFactory::createCopyLastNOperation(
 QSharedPointer<IOperation> OperationFactory::createMacroOperation(
         const QList<QSharedPointer<IOperation> > &operations) noexcept
 {
+    return QSharedPointer<IOperation>(
+                new MacroOperation(operations),
+                &QObject::deleteLater);
 }
 
 QSharedPointer<IOperation> OperationFactory::createZipOperation(
         const QStringList &source_files,
         const QString &target_zip_file_path) noexcept
 {
+    return QSharedPointer<IOperation>(
+                new ZipOperation(source_files, target_zip_file_path),
+                &QObject::deleteLater);
 }
