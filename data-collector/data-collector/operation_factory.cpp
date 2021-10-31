@@ -3,6 +3,7 @@
 #include "impl/async_operation_invoker.h"
 #include "impl/console_util_operation.h"
 #include "impl/copy_by_wildcard_operation.h"
+#include "impl/copy_last_n_operation.h"
 
 OperationFactory::OperationFactory() noexcept :
     IOperationFactory()
@@ -41,6 +42,9 @@ QSharedPointer<IOperation> OperationFactory::createCopyLastNOperation(
         qint32 number,
         const QString &target_dir) noexcept
 {
+    return QSharedPointer<IOperation>(
+                new CopyLastNOperation(source_dir, number, target_dir),
+                &QObject::deleteLater);
 }
 
 QSharedPointer<IOperation> OperationFactory::createMacroOperation(

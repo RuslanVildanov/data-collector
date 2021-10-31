@@ -1,21 +1,21 @@
-#include "copy_by_wildcard_operation.h"
+#include "copy_last_n_operation.h"
 
 #include <QDir>
 #include <QDebug>
-#include <QFileInfo>
+#include <QStringList>
 
-CopyByWildcardOperation::CopyByWildcardOperation(
+CopyLastNOperation::CopyLastNOperation(
         const QString &source_dir,
-        const QStringList &wildcards,
+        qint32 number,
         const QString &target_dir) noexcept :
     IOperation(),
     m_source_dir(source_dir),
-    m_wildcards(wildcards),
+    m_number(number),
     m_target_dir(target_dir)
 {
 }
 
-void CopyByWildcardOperation::start() noexcept
+void CopyLastNOperation::start() noexcept
 {
     QDir source_dir(m_source_dir);
 
@@ -31,9 +31,15 @@ void CopyByWildcardOperation::start() noexcept
         emit finished(false, tr("Target directory is not exists. %1").arg(m_target_dir));
         return;
     }
+    if (m_number == 0)
+    {
+        emit progress(MAX_OPERATION_PROGRESS, QString());
+        emit finished(true, QString());
+        return;
+    }
 
     qint8 p;
-    const QStringList &files = source_dir.entryList(m_wildcards, QDir::Files);
+    const QStringList &files = source_dir.entryList(QDir::Files, QDir::Time);
     qint32 i = 1;
     qint32 total_files = files.size();
     for(const QString &file : files)
@@ -46,6 +52,10 @@ void CopyByWildcardOperation::start() noexcept
         if (!ok)
         {
             qWarning() << "Can not copy file " << file << " to target directory " << m_target_dir;
+        }
+        if (i >= m_number)
+        {
+            break;
         }
         i++;
     }
