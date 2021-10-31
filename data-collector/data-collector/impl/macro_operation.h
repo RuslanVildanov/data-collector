@@ -22,7 +22,8 @@ class MacroOperation : public IOperation
     const qint32 m_total_operations;
 
 public:
-    MacroOperation(const QList<QSharedPointer<IOperation> > &operations) noexcept;
+    explicit MacroOperation(
+            const QList<QSharedPointer<IOperation> > &operations) noexcept;
 
     // IOperation interface
     void start() noexcept final;
@@ -34,6 +35,7 @@ private slots:
 private:
     void startNextOperation() noexcept;
 
+    Q_DISABLE_COPY(MacroOperation)
 };
 
 #endif // MACROOPERATION_H

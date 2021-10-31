@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-static qint8 MAX_OPERATION_PROGRESS = 100;
+static const qint8 MAX_OPERATION_PROGRESS = 100;
 
 class QString;
 

@@ -31,11 +31,15 @@ void AsyncOperation::start() noexcept
 
 void AsyncOperation::startAsync()
 {
+    qInfo() << "AsyncOperation::startAsync: " << m_id << " async thread: " << QThread::currentThread();
+
     start();
 }
 
 void AsyncOperation::onOperationFinished(bool ok, const QString &msg)
 {
+    qInfo() << "AsyncOperation::onOperationFinished" << m_id << " async thread: " << QThread::currentThread();
+
     disconnect(m_operation.data(), &IOperation::finished,
                this, &AsyncOperation::onOperationFinished);
     emit asyncFinished(m_id, ok, msg);
@@ -93,6 +97,7 @@ void AsyncOperationInvoker::start(QSharedPointer<IOperation> operation) noexcept
         {
             connect(o.data(), &AsyncOperation::asyncFinished,
                     this, &AsyncOperationInvoker::onAsyncOperationFinished);
+            operation->moveToThread(m_thread);
             o->moveToThread(m_thread);
             m_started_operations.insert(m_executed_operation, o);
         }

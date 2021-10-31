@@ -22,6 +22,7 @@ public:
     // IOperation interface
     void start() noexcept final;
 
+    Q_DISABLE_COPY(CopyByWildcardOperation)
 };
 
 #endif // COPYBYWILDCARDOPERATION_H

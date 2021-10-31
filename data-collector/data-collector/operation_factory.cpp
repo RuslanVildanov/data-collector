@@ -21,11 +21,12 @@ QSharedPointer<IOperationInvoker> OperationFactory::createAsyncOperationInvoker(
 
 QSharedPointer<IOperation> OperationFactory::createConsoleUtilOperation(
         const QString &prog,
+        const QString &working_dir,
         const QStringList &args,
-        const QString &target_dir) noexcept
+        const QString &output_file_path) noexcept
 {
     return QSharedPointer<IOperation>(
-                new ConsoleUtilOperation(prog, args, target_dir),
+                new ConsoleUtilOperation(prog, working_dir, args, output_file_path),
                 &QObject::deleteLater);
 }
 
@@ -42,10 +43,11 @@ QSharedPointer<IOperation> OperationFactory::createCopyByWildcardOperation(
 QSharedPointer<IOperation> OperationFactory::createCopyLastNOperation(
         const QString &source_dir,
         qint32 number,
+        const QStringList &wildcards,
         const QString &target_dir) noexcept
 {
     return QSharedPointer<IOperation>(
-                new CopyLastNOperation(source_dir, number, target_dir),
+                new CopyLastNOperation(source_dir, number, wildcards, target_dir),
                 &QObject::deleteLater);
 }
 

@@ -27,8 +27,11 @@ public:
 signals:
     void asyncFinished(qint64 id, bool ok, const QString &msg);
 
-private slots:
+public slots:
     void onOperationFinished(bool ok, const QString &msg);
+
+private:
+    Q_DISABLE_COPY(AsyncOperation)
 
 };
 
@@ -51,6 +54,9 @@ public:
 
 private slots:
     void onAsyncOperationFinished(qint64 id, bool ok, const QString &msg);
+
+private:
+    Q_DISABLE_COPY(AsyncOperationInvoker)
 
 };
 

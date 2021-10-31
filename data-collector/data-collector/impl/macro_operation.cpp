@@ -1,5 +1,8 @@
 #include "macro_operation.h"
 
+#include <QDebug>
+#include <QThread>
+
 MacroOperation::MacroOperation(const QList<QSharedPointer<IOperation> > &operations) noexcept :
     IOperation(),
     m_operations(operations),
@@ -38,6 +41,8 @@ void MacroOperation::onOperationFinished(bool ok, const QString &msg)
 
 void MacroOperation::startNextOperation() noexcept
 {
+//    qInfo() << "MacroOperation::startNextOperation" << m_operations.size() << " macro operation thread: " << QThread::currentThread();;
+
     if (m_operations.isEmpty())
     {
         bool ok = true;
@@ -59,7 +64,7 @@ void MacroOperation::startNextOperation() noexcept
         return;
     }
     m_current_operation = m_operations.takeFirst();
-    Q_ASSERT_X(m_current_operation, "incorrect using", "incorrect input null operation");
+    Q_ASSERT_X(m_current_operation, "trying to start next operation", "incorrect input null operation");
     if (!m_current_operation)
     {
         startNextOperation();

@@ -1,8 +1,8 @@
 #include "copy_by_wildcard_operation.h"
 
 #include <QDir>
+#include <QFile>
 #include <QDebug>
-#include <QFileInfo>
 
 CopyByWildcardOperation::CopyByWildcardOperation(
         const QString &source_dir,
@@ -33,19 +33,19 @@ void CopyByWildcardOperation::start() noexcept
     }
 
     qint8 p;
-    const QStringList &files = source_dir.entryList(m_wildcards, QDir::Files);
+    const QStringList &file_names = source_dir.entryList(m_wildcards, QDir::Files);
     qint32 i = 1;
-    qint32 total_files = files.size();
-    for(const QString &file : files)
+    qint32 total_files = file_names.size();
+    for(const QString &file_name : file_names)
     {
         p = static_cast<qint8>(
                     static_cast<qreal>(MAX_OPERATION_PROGRESS*i)/static_cast<qreal>(total_files));
-        emit progress(p, tr("Copy file %1").arg(file));
-        QFileInfo fi(file);
-        const bool ok = QFile::copy(file, m_target_dir + '/' + fi.fileName());
+
+        emit progress(p, tr("Copy file %1").arg(file_name));
+        const bool ok = QFile::copy(m_source_dir + '/' + file_name, m_target_dir + '/' + file_name);
         if (!ok)
         {
-            qWarning() << "Can not copy file " << file << " to target directory " << m_target_dir;
+            qWarning() << "Can not copy file " << file_name << " to target directory " << m_target_dir;
         }
         i++;
     }

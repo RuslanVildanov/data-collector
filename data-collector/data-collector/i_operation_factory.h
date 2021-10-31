@@ -16,8 +16,9 @@ public:
     virtual QSharedPointer<IOperationInvoker> createAsyncOperationInvoker() noexcept = 0;
     virtual QSharedPointer<IOperation> createConsoleUtilOperation (
             const QString &prog,
+            const QString &working_dir,
             const QStringList &args,
-            const QString &target_dir) noexcept = 0;
+            const QString &output_file_path) noexcept = 0;
     virtual QSharedPointer<IOperation> createCopyByWildcardOperation (
             const QString &source_dir,
             const QStringList &wildcards,
@@ -25,6 +26,7 @@ public:
     virtual QSharedPointer<IOperation> createCopyLastNOperation (
             const QString &source_dir,
             qint32 number,
+            const QStringList &wildcards,
             const QString &target_dir) noexcept = 0;
     virtual QSharedPointer<IOperation> createMacroOperation (
             const QList<QSharedPointer<IOperation> > &operations) noexcept = 0;

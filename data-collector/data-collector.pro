@@ -16,10 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 include(data-collector/data-collector.pri)
 
+DESTDIR = ../bin
+
 SOURCES += \
+        framework_test.cpp \
         main.cpp
 
 # Default rules for deployment.
 #qnx: target.path = /tmp/$${TARGET}/bin
 #else: unix:!android: target.path = /opt/$${TARGET}/bin
 #!isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    framework_test.h
